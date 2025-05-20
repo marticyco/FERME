@@ -1,0 +1,24 @@
+@extends('adminlte::page')
+
+@section('title', 'Gestion des Roles et Permissions ')
+
+@section('content_header')
+    <h1>Management des Droits </h1>
+@stop
+
+@section('content')
+    <div id="app">
+        <!-- Utilisation du composant Vue.js pour la gestion des abonnements -->
+        <permission-manager></permission-manager>
+    </div>
+@stop
+
+@section('js')
+    <!-- Inclure le script de Vue.js via Vite -->
+    @vite('resources/js/app.js')
+@stop
+
+@section('css')
+    <!-- Inclure les styles CSS via Vite -->
+    @vite('resources/css/'tailwind.css)
+@stop
