@@ -60,7 +60,8 @@
             </thead>
             <tbody>
               <tr
-                v-for="user in users"
+                v-for="user in paginatedItems"
+
                 :key="user.id"
                 class="border-t"
                 :class="getRoleClass(user)"
@@ -114,7 +115,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="role in roles" :key="role.id" class="border-t">
+              <tr v-for="role in paginatedItems" :key="role.id" class="border-t">
                 <td class="px-6 py-4">{{ role.name }}</td>
                 <td class="px-6 py-4 flex space-x-4">
                   <button @click="openModal('editRole', role)" class="text-blue-600 hover:text-blue-800">
@@ -147,7 +148,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="permission in permissions" :key="permission.id" class="border-t">
+              <tr v-for="permission in paginatedItems" :key="permission.id" class="border-t">
                 <td class="px-6 py-4">{{ permission.name }}</td>
                 <td class="px-6 py-4 flex space-x-4">
                   <button @click="openModal('editPermission', permission)" class="text-blue-600 hover:text-blue-800">
@@ -251,7 +252,10 @@
         users: [],
         roles: [],
         permissions: [],
+        sidebarCollapsed: false,
         currentSection: 'users', // Section active : 'users', 'roles', 'permissions'
+        currentPage: 1,
+         perPage: 3,
         formData: {
           name: '',
           email: '',
@@ -267,20 +271,46 @@
     },
   
     computed: {
-      sectionTitle() {
-        switch (this.currentSection) {
-          case 'users':
-            return 'Gestion des Utilisateurs';
-          case 'roles':
-            return 'Gestion des Rôles';
-          case 'permissions':
-            return 'Gestion des Permissions';
-          default:
-            return '';
-        }
-      },
-    },
-  
+  sectionTitle() {
+    switch (this.currentSection) {
+      case 'users':
+        return 'Gestion des Utilisateurs';
+      case 'roles':
+        return 'Gestion des Rôles';
+      case 'permissions':
+        return 'Gestion des Permissions';
+      default:
+        return '';
+    }
+  },
+  totalPages() {
+    switch (this.currentSection) {
+      case 'users':
+        return Math.ceil(this.users.length / this.perPage);
+      case 'roles':
+        return Math.ceil(this.roles.length / this.perPage);
+      case 'permissions':
+        return Math.ceil(this.permissions.length / this.perPage);
+      default:
+        return 1;
+    }
+  },
+  paginatedItems() {
+    const start = (this.currentPage - 1) * this.perPage;
+    const end = start + this.perPage;
+
+    switch (this.currentSection) {
+      case 'users':
+        return this.users.slice(start, end);
+      case 'roles':
+        return this.roles.slice(start, end);
+      case 'permissions':
+        return this.permissions.slice(start, end);
+      default:
+        return [];
+    }
+  },
+},
     methods: {
       async fetchUsers() {
         try {
@@ -291,6 +321,11 @@
         }
       },
 
+      changePage(page) {
+  if (page >= 1 && page <= this.totalPages) {
+    this.currentPage = page;
+  }
+},
       getRoleClass(user) {
       // Fonction pour attribuer une couleur en fonction du rôle
       if (user.roles.some(role => role.name === 'admin')) {
