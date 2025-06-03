@@ -1,39 +1,48 @@
 <template>
     <div class="flex min-h-screen bg-gray-50">
-      <!-- Sidebar -->
-      <div class="w-64 bg-blue-800 text-white p-6">
-        <h2 class="text-2xl font-semibold mb-8">Admin Panel</h2>
-        <ul class="space-y-6">
-          <li>
-            <button
-              @click="selectSection('users')"
-              :class="{'bg-blue-700': currentSection === 'users'}"
-              class="w-full text-left px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
-            >
-              <i class="fas fa-users mr-2"></i> Utilisateurs
-            </button>
-          </li>
-          <li>
-            <button
-              @click="selectSection('roles')"
-              :class="{'bg-blue-700': currentSection === 'roles'}"
-              class="w-full text-left px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
-            >
-              <i class="fas fa-user-shield mr-2"></i> Rôles
-            </button>
-          </li>
-          <li>
-            <button
-              @click="selectSection('permissions')"
-              :class="{'bg-blue-700': currentSection === 'permissions'}"
-              class="w-full text-left px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none"
-            >
-              <i class="fas fa-lock mr-2"></i> Permissions
-            </button>
-          </li>
-        </ul>
-      </div>
-  
+     <!-- Sidebar -->
+<div class="w-48 bg-blue-900 text-white p-6 h-screen">
+  <h2 class="text-xl font-semibold mb-8">Admin Panel</h2>
+
+  <ul class="space-y-4">
+    <!-- Utilisateurs -->
+    <li>
+      <button
+        @click="selectSection('users')"
+        :class="{'bg-blue-700': currentSection === 'users'}"
+        class="w-full flex items-center px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none transition-all"
+      >
+        <i class="fas fa-users text-blue-300 mr-3"></i>
+        <span>Utilisateurs</span>
+      </button>
+    </li>
+
+    <!-- Rôles -->
+    <li>
+      <button
+        @click="selectSection('roles')"
+        :class="{'bg-blue-700': currentSection === 'roles'}"
+        class="w-full flex items-center px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none transition-all"
+      >
+        <i class="fas fa-user-shield text-yellow-300 mr-3"></i>
+        <span>Rôles</span>
+      </button>
+    </li>
+
+    <!-- Permissions -->
+    <li>
+      <button
+        @click="selectSection('permissions')"
+        :class="{'bg-blue-700': currentSection === 'permissions'}"
+        class="w-full flex items-center px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none transition-all"
+      >
+        <i class="fas fa-key text-red-300 mr-3"></i>
+        <span>Permissions</span>
+      </button>
+    </li>
+  </ul>
+</div>
+
       <!-- Main Content -->
       <div class="flex-1 p-8 overflow-auto">
         <h3 class="text-3xl font-semibold text-gray-800 mb-8">{{ sectionTitle }}</h3>
@@ -96,6 +105,38 @@
             </tbody>
           </table>
         </div>
+        <div class="mt-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+  <!-- Texte de la page -->
+  <div class="text-sm text-gray-600 text-center sm:text-left">
+    Page <span class="font-semibold text-gray-800">{{ currentPage }}</span> sur <span class="font-semibold text-gray-800">{{ totalPages }}</span>
+  </div>
+
+  <!-- Boutons de pagination -->
+  <div class="flex items-center justify-center space-x-2">
+    <!-- Précédent -->
+    <button
+      @click="changePage(currentPage - 1)"
+      :disabled="currentPage === 1"
+      class="flex items-center px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200
+             bg-gradient-to-r from-blue-500 to-blue-700 text-white hover:from-blue-600 hover:to-blue-800 
+             disabled:opacity-40 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
+    >
+      <i class="fas fa-arrow-left mr-2"></i> Précédent
+    </button>
+
+    <!-- Suivant -->
+    <button
+      @click="changePage(currentPage + 1)"
+      :disabled="currentPage === totalPages"
+      class="flex items-center px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200
+             bg-gradient-to-r from-green-500 to-green-700 text-white hover:from-green-600 hover:to-green-800 
+             disabled:opacity-40 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
+    >
+      Suivant <i class="fas fa-arrow-right ml-2"></i>
+    </button>
+  </div>
+</div>
+
   
         <!-- Rôles -->
         <div v-if="currentSection === 'roles'">
