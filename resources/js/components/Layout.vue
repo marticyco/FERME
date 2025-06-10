@@ -1,8 +1,14 @@
 <template>
-  <div class="min-h-screen flex bg-gray-100 font-sans">
+  <div class="min-h-screen flex bg-gray-100 font-sans relative">
 
     <!-- Sidebar -->
-    <aside class="w-64 bg-gray-900 text-white hidden lg:flex flex-col">
+    <aside
+      v-if="!isAuthPage"
+      :class="[
+        'w-64 bg-gray-900 text-white fixed inset-y-0 left-0 z-40 transform lg:relative lg:translate-x-0 lg:flex flex-col transition-transform duration-200 ease-in-out',
+        mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      ]"
+    >
       <div class="flex items-center justify-center h-16 border-b border-gray-700">
         <span class="text-2xl font-bold">🐓 Ma Ferme</span>
       </div>
@@ -19,13 +25,26 @@
       </nav>
     </aside>
 
+    <!-- Overlay for mobile -->
+    <div
+      v-if="mobileSidebarOpen && !isAuthPage"
+      class="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
+      @click="mobileSidebarOpen = false"
+    ></div>
+
     <!-- Main content -->
     <div class="flex-1 flex flex-col">
 
       <!-- Navbar -->
-      <nav class="bg-gray-50 h-[42px] px-4 border-b border-gray-200 shadow-sm flex items-center justify-between z-[1030]">
-        <div class="flex items-center space-x-6 overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-gray-300">
-          <NavbarLink icon="home" text="Accueil" />
+      <nav v-if="!isAuthPage" class="bg-gray-50 h-[42px] px-4 border-b border-gray-200 shadow-sm flex items-center justify-between z-[1030]">
+        <!-- Left side (burger + links) -->
+        <div class="flex items-center space-x-4 overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-gray-300">
+          <!-- Burger Menu for mobile -->
+          <button @click="mobileSidebarOpen = !mobileSidebarOpen" class="lg:hidden text-gray-800">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+
+          <NavbarLink icon="home" text="Accueil" to="/dashboard" />
           <NavbarLink icon="chart-bar" text="Comptabilité" to="/account" color="purple" />
           <NavbarLink icon="chart-pie" text="Statistiques" to="/statistiques" color="indigo" />
           <NavbarLink icon="tasks" text="Tâches" to="/taches" color="green" />
@@ -38,6 +57,8 @@
             Rôles & Permissions
           </router-link>
         </div>
+
+        <!-- Right side -->
         <div class="flex items-center space-x-4">
           <NavbarLink icon="user-circle" text="Profil" color="green" />
           <NavbarLink icon="bell" text="Notifications" color="orange" />
@@ -55,6 +76,16 @@
 <script>
 export default {
   name: 'Layout',
+  data() {
+    return {
+      mobileSidebarOpen: false,
+    };
+  },
+  computed: {
+    isAuthPage() {
+      return this.$route.path === '/auth';
+    }
+  },
   components: {
     SidebarItem: {
       props: ['icon', 'label', 'to', 'color'],

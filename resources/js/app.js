@@ -24,6 +24,7 @@ import TraitementManager from './components/TraitementManager.vue';
 import CashManager from './components/CashManager.vue';
 import Accounting from './components/Accounting.vue';
 import RolePermissionManager from './components/RolePermissionManager.vue';
+import Parametres from './components/Parametres.vue';
 
 
 
@@ -42,6 +43,7 @@ const routes = [
     { path: '/cash-manager', component: CashManager, name: 'cash-manager' },
     { path: '/account', component: Accounting, name: 'account' },
     { path: '/permission-manager', component: RolePermissionManager, name: 'permission-manager' },
+    { path: '/parametres', component: Parametres, name: 'parametre' },
 ];
 
 // Création du routeur Vue Router

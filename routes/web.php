@@ -36,6 +36,7 @@ Route::get('/traitement-manager', [TraitementController::class, 'index']);
 Route::get('/cash-manager', [FinanceController::class, 'index']);
 Route::get('/account', [ComptabiliteController::class, 'index']);
 Route::get('/permission-manager', [RolePermissionController::class, 'index']);
+Route::get('/parametres', [ParametresController::class, 'index']);
 
 
 require __DIR__.'/api.php';
