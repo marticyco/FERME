@@ -1,85 +1,88 @@
 <template>
-     <div class="dashboard-layout min-h-screen flex flex-col md:flex-row">
-  <!-- Sidebar -->
-  <div class="sidebar w-full md:w-1/5 bg-gradient-to-b from-gray-900 via-gray-800 to-gray-700 text-white p-4 shadow-xl">
-    <!-- Header -->
-    <div class="sidebar-header mb-8 flex items-center space-x-2">
-      <i class="fas fa-egg text-yellow-400 text-2xl"></i>
-      <h2 class="text-lg font-semibold tracking-wide text-white">Gestion des Œufs</h2>
-    </div>
+     <div class="flex flex-col md:flex-row min-h-screen">
 
-    <!-- Navigation -->
-    <ul class="sidebar-nav space-y-3">
-      <li
-        @click="setActiveTab('ponte')"
-        :class="[
-          'cursor-pointer px-3 py-2 rounded-lg flex items-center transition duration-200',
-          activeTab === 'ponte' ? 'bg-yellow-500 text-gray-900' : 'hover:bg-yellow-400 hover:text-gray-900'
-        ]"
-      >
-        <i class="fas fa-list-ul mr-3 text-sm"></i>
-        <span class="text-sm font-medium">Liste des Pontes</span>
-      </li>
-
-      <li
-        @click="setActiveTab('report')"
-        :class="[
-          'cursor-pointer px-3 py-2 rounded-lg flex items-center transition duration-200',
-          activeTab === 'report' ? 'bg-pink-500 text-white' : 'hover:bg-pink-400 hover:text-white'
-        ]"
-      >
-        <i class="fas fa-chart-line mr-3 text-sm"></i>
-        <span class="text-sm font-medium">Rapport de Pontes</span>
-      </li>
-
-      <li
-        @click="setActiveTab('overview')"
-        :class="[
-          'cursor-pointer px-3 py-2 rounded-lg flex items-center transition duration-200',
-          activeTab === 'overview' ? 'bg-indigo-500 text-white' : 'hover:bg-indigo-400 hover:text-white'
-        ]"
-      >
-        <i class="fas fa-eye mr-3 text-sm"></i>
-        <span class="text-sm font-medium">Vue d’Ensemble</span>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Contenu principal -->
-  <div class="main-content flex-1 p-4 bg-gray-50">
-    <!-- Header principal -->
-    <div class="main-header mb-6 space-y-4">
+    <!-- Sidebar toujours visible -->
+    <div class="w-full md:w-1/4 bg-gray-800 p-4">
       <!-- Titre -->
-      <h1 class="text-xl md:text-2xl font-bold text-gray-800">
-        Gestion des Pontes - Lot {{ currentLot.nom }} (ID: {{ currentLot.id }})
-      </h1>
+      <div class="flex items-center text-white text-xl font-bold mb-6 space-x-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18" />
+        </svg>
+        <span>Gestion des Œufs</span>
+      </div>
 
-      <!-- Actions (Sélection + Bouton) -->
-      <div class="main-actions flex flex-col sm:flex-row sm:items-center gap-4">
-        <!-- Sélecteur de lot -->
-        <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
-          <label for="lotSelect" class="text-gray-700 font-medium">Sélectionner un Lot :</label>
-          <select
-            id="lotSelect"
-            v-model="lotId"
-            @change="onLotChange"
-            class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-md text-gray-700 shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
-          >
-            <option v-for="lot in lots" :key="lot.id" :value="lot.id">{{ lot.nom }}</option>
-          </select>
-        </div>
-
-        <!-- Bouton Ajouter -->
+      <!-- Navigation -->
+      <div class="space-y-4">
         <button
-          @click="openPonteModal"
-          class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md shadow-md transition duration-200 flex items-center justify-center gap-2"
+          @click="setActiveTab('ponte')"
+          :class="[
+            'flex items-center space-x-3 w-full py-2 px-4 rounded-md',
+            activeTab === 'ponte' ? 'bg-yellow-500 text-gray-900' : 'bg-yellow-400 hover:bg-yellow-500 text-white'
+          ]"
         >
-          <i class="fas fa-plus-circle"></i>
-          <span>Ajouter une Ponte</span>
+          <i class="fas fa-list-ul"></i>
+          <span>Liste des Pontes</span>
+        </button>
+
+        <button
+          @click="setActiveTab('report')"
+          :class="[
+            'flex items-center space-x-3 w-full py-2 px-4 rounded-md',
+            activeTab === 'report' ? 'bg-pink-500 text-white' : 'bg-pink-400 hover:bg-pink-500 text-white'
+          ]"
+        >
+          <i class="fas fa-chart-line"></i>
+          <span>Rapport de Pontes</span>
+        </button>
+
+        <button
+          @click="setActiveTab('overview')"
+          :class="[
+            'flex items-center space-x-3 w-full py-2 px-4 rounded-md',
+            activeTab === 'overview' ? 'bg-indigo-500 text-white' : 'bg-indigo-400 hover:bg-indigo-500 text-white'
+          ]"
+        >
+          <i class="fas fa-eye"></i>
+          <span>Vue d’Ensemble</span>
         </button>
       </div>
     </div>
 
+    <!-- Contenu principal -->
+    <div class="w-full md:w-3/4 p-4 bg-gray-100">
+      <!-- En-tête -->
+      <div class="space-y-4 md:space-y-0 md:flex md:justify-between md:items-center mb-6">
+
+        <!-- Titre -->
+        <h1 class="text-xl md:text-2xl font-bold text-gray-800">
+          Gestion des Pontes - Lot {{ currentLot.nom }} (ID: {{ currentLot.id }})
+        </h1>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <!-- Sélecteur de lot -->
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <label for="lotSelect" class="text-gray-700 font-medium">Sélectionner un Lot :</label>
+            <select
+              id="lotSelect"
+              v-model="lotId"
+              @change="onLotChange"
+              class="w-full sm:w-auto px-3 py-2 border border-gray-300 rounded-md text-gray-700 shadow-sm focus:outline-none focus:ring focus:ring-blue-200"
+            >
+              <option v-for="lot in lots" :key="lot.id" :value="lot.id">{{ lot.nom }}</option>
+            </select>
+          </div>
+
+          <!-- Bouton Ajouter une ponte -->
+          <button
+            @click="openPonteModal"
+            class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md shadow-md flex items-center justify-center gap-2"
+          >
+            <i class="fas fa-plus-circle"></i>
+            <span>Ajouter une Ponte</span>
+          </button>
+        </div>
+      </div>
 
   
         <!-- Ponte Table -->
