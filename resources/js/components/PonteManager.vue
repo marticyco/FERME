@@ -251,29 +251,30 @@
       </div>
   
       <!-- Modal -->
-      <div v-if="showModal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" @click.self="closeModal">
-        <div class="modal-content bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-          <h3 class="text-xl font-semibold mb-4">{{ isEditing ? 'Modifier' : 'Ajouter' }} une Ponte</h3>
-          <div class="form-container">
-            <form @submit.prevent="submitPonte">
-              <div class="form-group mb-4">
-                <label for="date_ponte" class="block text-gray-700">Date de la Ponte</label>
-                <input type="date" id="date_ponte" class="form-control w-full px-4 py-2 border rounded-md" v-model="ponte.date_ponte" required />
-              </div>
-              <div class="form-group mb-4">
-                <label for="nombre_oeufs" class="block text-gray-700">Nombre d'œufs</label>
-                <input type="number" id="nombre_oeufs" class="form-control w-full px-4 py-2 border rounded-md" v-model="ponte.nombre_oeufs" required min="0" />
-              </div>
-              <button type="submit" class="btn btn-primary w-full py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
-                {{ isEditing ? 'Mettre à jour' : 'Ajouter' }} la Ponte
-              </button>
-              <button type="button" class="btn btn-secondary w-full py-2 mt-4 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300" @click="closeModal">
-                Annuler
-              </button>
-            </form>
-          </div>
+<div v-if="showModal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" @click.self="closeModal">
+  <div class="modal-content bg-white p-6 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl overflow-y-auto max-h-[90vh]">
+    <h3 class="text-xl font-semibold mb-4">{{ isEditing ? 'Modifier' : 'Ajouter' }} une Ponte</h3>
+    <div class="form-container">
+      <form @submit.prevent="submitPonte">
+        <div class="form-group mb-4">
+          <label for="date_ponte" class="block text-gray-700">Date de la Ponte</label>
+          <input type="date" id="date_ponte" class="form-control w-full px-4 py-2 border rounded-md" v-model="ponte.date_ponte" required />
         </div>
-      </div>
+        <div class="form-group mb-4">
+          <label for="nombre_oeufs" class="block text-gray-700">Nombre d'œufs</label>
+          <input type="number" id="nombre_oeufs" class="form-control w-full px-4 py-2 border rounded-md" v-model="ponte.nombre_oeufs" required min="0" />
+        </div>
+        <button type="submit" class="btn btn-primary w-full py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+          {{ isEditing ? 'Mettre à jour' : 'Ajouter' }} la Ponte
+        </button>
+        <button type="button" class="btn btn-secondary w-full py-2 mt-4 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300" @click="closeModal">
+          Annuler
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
     </div>
   </template>
   
